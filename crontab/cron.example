@@ -1,0 +1,1 @@
+*/5 * * * * /root/scripts/aws_resource_tracker.sh >> /tmp/cron.log 2>&1
