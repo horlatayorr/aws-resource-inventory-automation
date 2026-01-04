@@ -1,0 +1,63 @@
+This repository demonstrates how to automate AWS resource inventory using Bash, AWS CLI, and cron jobs on an Amazon Linux EC2 instance.
+
+The project accompanies a detailed Medium article and is designed to be practical, beginner-friendly, and portfolio-ready.
+
+🚀 What This Project Does
+The automation script collects and displays information about:
+- S3 Buckets
+- EC2 Instances (saved to a timestamped report file)
+- Lambda Functions
+- IAM Users
+
+The script is designed to be cron-safe, using absolute paths and proper error handling.
+
+🛠 Prerequisites
+- AWS Account
+- Amazon Linux 2023 EC2 Instance
+- AWS CLI installed and configured
+- IAM role or AWS credentials with read-only permissions
+- Bash
+- jq
+- cron
+
+🔧 Setup Instructions
+1. Install AWS CLI (Amazon Linux 2023)
+sudo dnf install -y awscli
+aws --version
+
+2. Configure AWS Credentials
+Option 1: Attach an IAM Role to the EC2 instance (recommended)
+Option 2: Configure manually
+aws configure
+📜 Bash Script Overview
+The main script is located at:
+scripts/aws_resource_tracker.sh
+Key features:
+Uses set -euo pipefail for safety
+Uses absolute paths (required for cron)
+Writes EC2 inventory reports to /var/log/ec2-reports
+Formats AWS CLI JSON output using jq
+▶️ Make the Script Executable
+chmod u+x scripts/aws_resource_tracker.sh
+⏰ Automating with Cron
+Edit the crontab:
+crontab -e
+Example cron job (runs every 5 minutes):
+*/5 * * * * /root/scripts/aws_resource_tracker.sh >> /tmp/cron.log 2>&1
+This ensures:
+The script runs unattended
+Output and errors are logged for debugging
+📂 Output
+EC2 inventory reports are generated in:
+/var/log/ec2-reports/
+ec2_instances_YYYY-MM-DD_HH-MM-SS.txt
+Each execution creates a new timestamped file.
+🧠 Learning Outcomes
+By working through this project, you will learn:
+How to automate AWS tasks using Bash
+How to safely run scripts with cron
+How to parse AWS CLI JSON output using jq
+How to structure simple DevOps automation projects
+📖 Related Article
+This repository accompanies the Medium article:
+Automating AWS Resource Inventory with Bash, AWS CLI, and Cron
